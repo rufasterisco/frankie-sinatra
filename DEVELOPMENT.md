@@ -48,6 +48,12 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Clean implementation with monitoring thread
 - [x] Update documentation with tuning parameters
 
+### Phase 5: Audio File Cleanup ✅
+- [x] Delete WAV and TXT files by default after transcription
+- [x] Add --keep-audio flag to preserve all files
+- [x] Update documentation with cleanup options
+- [x] Test audio cleanup functionality
+
 ### Phase ?: macOS Menu Bar App with rumps
 - [ ] Research rumps library and menu bar app patterns
 - [ ] Add rumps dependency
@@ -76,12 +82,11 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [ ] Add instructions for building standalone app
 - [ ] Optional: Add to Login Items instructions
 
-### Phase ?: Audio File Cleanup
-- [ ] Add option to delete WAV files after transcription
-- [ ] Implement --keep-audio flag to preserve recordings
-- [ ] Add cleanup for old recordings (configurable retention period)
-- [ ] Add menu option to clean up all recordings
-- [ ] Update documentation with cleanup options
+### Phase 5: Audio File Cleanup ✅
+- [x] Delete WAV files by default after transcription
+- [x] Add --keep-audio flag to preserve recordings
+- [x] Update documentation with cleanup options
+- [x] Test audio cleanup functionality
 
 ### Phase ?: Quality Evaluation (Future)
 - [ ] Compare different model sizes

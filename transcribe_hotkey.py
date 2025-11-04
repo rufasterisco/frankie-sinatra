@@ -20,7 +20,7 @@ from pynput import keyboard
 
 
 class HotkeyTranscriber:
-    def __init__(self, model_name="base", hotkey="double-cmd", output_dir="transcriptions", double_tap_delay=0.3, auto_paste=True, auto_stop=True, silence_threshold=-40, silence_duration=2.0, language="en", auto_detect_language=False):
+    def __init__(self, model_name="base", hotkey="double-cmd", output_dir="transcriptions", double_tap_delay=0.3, auto_paste=True, auto_stop=True, silence_threshold=-40, silence_duration=2.0, language="en", auto_detect_language=False, keep_audio=False):
         """
         Initialize the hotkey transcriber.
 
@@ -35,6 +35,7 @@ class HotkeyTranscriber:
             silence_duration: Duration of silence in seconds before auto-stop (default: 2.0)
             language: Language code (default: 'en' for English, None for auto-detection)
             auto_detect_language: If True, auto-detect language instead of using fixed language
+            keep_audio: Keep audio and transcription files (default: False, deletes both after pasting)
         """
         self.model_name = model_name
         self.hotkey = hotkey
@@ -48,6 +49,7 @@ class HotkeyTranscriber:
         self.silence_duration = silence_duration
         self.language = None if auto_detect_language else language
         self.auto_detect_language = auto_detect_language
+        self.keep_audio = keep_audio
 
         self.is_recording = False
         self.audio_data = []
@@ -196,13 +198,23 @@ class HotkeyTranscriber:
         print(result["text"])
         print("="*60)
 
-        # Save transcription
+        # Save transcription temporarily (for reference if paste fails)
         transcription_path = self.output_dir / f"transcription_{timestamp}.txt"
         with open(transcription_path, "w") as f:
             f.write(result["text"])
 
-        print(f"\n✅ Saved to: {transcription_path}")
-        print(f"🎤 Audio saved to: {audio_path}")
+        if self.keep_audio:
+            print(f"\n✅ Transcription saved to: {transcription_path}")
+            print(f"🎤 Audio saved to: {audio_path}")
+        else:
+            # Delete both audio and text files after transcription
+            print(f"\n✅ Transcription complete")
+            try:
+                os.remove(audio_path)
+                os.remove(transcription_path)
+                print(f"🗑️  Temporary files deleted (transcription in clipboard)")
+            except Exception as e:
+                print(f"⚠️  Could not delete temporary files: {e}")
 
         if "language" in result:
             print(f"🌍 Detected language: {result['language']}")
@@ -379,6 +391,11 @@ def main():
         action="store_true",
         help="Enable automatic language detection (overrides --language)"
     )
+    parser.add_argument(
+        "--keep-audio",
+        action="store_true",
+        help="Keep audio and transcription files (default: delete both after pasting to clipboard)"
+    )
 
     args = parser.parse_args()
 
@@ -402,7 +419,8 @@ def main():
         silence_threshold=args.silence_threshold,
         silence_duration=args.silence_duration,
         language=language,
-        auto_detect_language=auto_detect
+        auto_detect_language=auto_detect,
+        keep_audio=args.keep_audio
     )
 
     try:

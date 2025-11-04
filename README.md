@@ -86,7 +86,12 @@ uv run transcribe_hotkey.py --silence-threshold -45  # Lower = more sensitive
 
 # Adjust silence duration before auto-stop
 uv run transcribe_hotkey.py --silence-duration 3.0   # Longer pause tolerance
+
+# Keep files after transcription (default: auto-delete)
+uv run transcribe_hotkey.py --keep-audio
 ```
+
+**Note:** By default, both audio files and transcription text files are automatically deleted after pasting to clipboard to save disk space. Use `--keep-audio` to preserve all files in the `transcriptions/` directory.
 
 **macOS Permissions Required:**
 On first run, macOS will require Accessibility permissions:
