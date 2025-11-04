@@ -13,24 +13,36 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 
 ## Implementation Plan
 
-### Phase 1: Basic POC ✓
+### Phase 1: Basic POC ✅
 - [x] Create README.md with usage instructions
 - [x] Create DEVELOPMENT.md for tracking
 - [x] Implement basic transcription script
 - [x] Add pyproject.toml for uv dependency management
-- [ ] Test with default model
+- [x] Test with default model
+- [x] Verify quality is acceptable
 
-### Phase 2: Quality Evaluation (Future)
+### Phase 2: Keystroke Activation ✅
+- [x] Research global hotkey libraries for macOS
+- [x] Implement global keystroke listener (pynput)
+- [x] Integrate hotkey with recording workflow
+- [x] Add double-tap right Command key detection
+- [x] Support for custom hotkey combinations
+- [x] Add visual feedback for recording state (console messages)
+- [x] Document accessibility permissions requirements
+- [x] Update documentation with hotkey usage
+
+### Phase ?: Quality Evaluation (Future)
 - [ ] Compare different model sizes
 - [ ] Measure transcription accuracy
 - [ ] Benchmark performance (speed vs quality)
 - [ ] Test with different audio conditions
 
-### Phase 3: Enhancements (Optional)
+### Phase ?: Advanced Features (Future)
 - [ ] Add real-time streaming transcription
 - [ ] Create simple GUI
 - [ ] Add support for different languages
 - [ ] Implement audio pre-processing
+- [ ] Integration with text editors
 
 ## Technical Decisions
 
@@ -49,11 +61,19 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - **Format:** WAV (uncompressed, best quality)
 - **Sample rate:** 16000 Hz (Whisper's native rate)
 
+### Hotkey Activation
+- **Library:** `pynput` (cross-platform keyboard listener)
+- **Default trigger:** Double-tap right Command key (0.3s delay)
+- **Why double-tap:** Non-intrusive, unlikely to conflict with other shortcuts
+- **Alternative:** Custom hotkey combinations supported via `--hotkey` flag
+- **macOS requirement:** Accessibility permissions needed for global hotkey detection
+
 ### Dependencies
 - `openai-whisper`: Core transcription
 - `sounddevice`: Microphone recording
 - `soundfile`: Audio file handling
 - `numpy`: Audio data processing
+- `pynput`: Global hotkey detection
 
 ## Development Notes
 
@@ -62,7 +82,14 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - Documentation structure created
 - Implemented basic transcription script with CLI args
 - Switched to uv for package management
-- Next: Install dependencies and test first transcription
+- Installed dependencies and tested transcription
+- **Phase 1 complete** - Quality verified as acceptable
+- Implemented Phase 2: Keystroke activation for macOS
+  - Added pynput for global hotkey detection
+  - Implemented double-tap right Command key as default activation
+  - Supports custom hotkey combinations
+  - Updated all documentation
+- **Phase 2 complete** - Double-tap activation working
 
 ## Testing Checklist
 

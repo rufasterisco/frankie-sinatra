@@ -41,7 +41,32 @@ uv sync
 
 ## Usage
 
-### Basic Transcription
+### Option 1: Hotkey Activation (Recommended)
+
+Run the hotkey listener and use a global hotkey to start/stop recording:
+
+```bash
+uv run transcribe_hotkey.py
+```
+
+**Default activation:** Double-tap right Command key
+- Double-tap to start recording
+- Double-tap again to stop and transcribe
+
+**Custom hotkey:**
+```bash
+# Use a keyboard combination instead
+uv run transcribe_hotkey.py --hotkey "<cmd>+<shift>+r"
+```
+
+**macOS Permissions Required:**
+On first run, macOS will require Accessibility permissions:
+1. Go to **System Preferences > Security & Privacy > Privacy**
+2. Select **Accessibility** from the left panel
+3. Add **Terminal** (or your Python app) to the list
+4. Restart the script
+
+### Option 2: Manual Transcription
 
 Run the script and speak into your microphone:
 
@@ -51,8 +76,7 @@ uv run transcribe.py
 
 Press `Ctrl+C` to stop recording. The transcription will be displayed.
 
-### Options
-
+**Options:**
 ```bash
 # Use a different model size (tiny, base, small, medium, large)
 uv run transcribe.py --model base
@@ -84,6 +108,11 @@ The transcription will be:
 - Timestamped in `transcriptions/` directory (if multiple recordings)
 
 ## Troubleshooting
+
+**Hotkey not working (macOS):**
+- Grant Accessibility permissions (see Usage section above)
+- Check that the hotkey isn't already used by another app
+- Try a different hotkey combination
 
 **No microphone detected:**
 - Check your microphone is connected and permissions are granted
