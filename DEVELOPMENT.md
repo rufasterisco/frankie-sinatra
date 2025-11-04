@@ -31,14 +31,22 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Document accessibility permissions requirements
 - [x] Update documentation with hotkey usage
 
-### Phase 3: Auto-Paste Transcription (Current)
-- [ ] Research clipboard and paste automation on macOS
-- [ ] Implement clipboard integration
-- [ ] Add auto-paste to active application
-- [ ] Detect focused application/cursor position
-- [ ] Add option to disable auto-paste (clipboard only)
-- [ ] Test with various applications (text editors, browsers, etc.)
-- [ ] Update documentation with auto-paste feature
+### Phase 3: Auto-Paste Transcription ✅
+- [x] Research clipboard and paste automation on macOS
+- [x] Implement clipboard integration
+- [x] Add auto-paste to active application
+- [x] Add option to disable auto-paste (clipboard only)
+- [x] Update documentation with auto-paste feature
+
+### Phase 4: Silence Detection Auto-Stop (Current - Experimental)
+- [ ] Research silence detection algorithms
+- [ ] Implement audio level monitoring
+- [ ] Add configurable silence threshold (dB)
+- [ ] Add configurable silence duration (seconds before auto-stop)
+- [ ] Add --auto-stop flag to enable feature
+- [ ] Test with different speaking patterns and environments
+- [ ] Evaluate false positive/negative rates
+- [ ] Update documentation with experimental feature
 
 ### Phase ?: Quality Evaluation (Future)
 - [ ] Compare different model sizes

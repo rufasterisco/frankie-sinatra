@@ -52,19 +52,26 @@ uv run transcribe_hotkey.py
 **How it works:**
 - **Double-tap right Command key** to start recording
 - Speak into your microphone
-- **Double-tap again** to stop
+- **Automatically stops** after 2 seconds of silence (or double-tap again to stop manually)
 - Transcription is copied to clipboard AND automatically pasted to your active application
 
-**Clipboard-only mode:**
-```bash
-# Disable auto-paste, copy to clipboard only
-uv run transcribe_hotkey.py --no-paste
-```
+**Options:**
 
-**Custom hotkey:**
 ```bash
-# Use a keyboard combination instead
+# Disable auto-paste (clipboard only)
+uv run transcribe_hotkey.py --no-paste
+
+# Disable auto-stop (manual stop with double-tap required)
+uv run transcribe_hotkey.py --no-auto-stop
+
+# Use a keyboard combination instead of double-tap
 uv run transcribe_hotkey.py --hotkey "<cmd>+<shift>+r"
+
+# Adjust silence detection sensitivity
+uv run transcribe_hotkey.py --silence-threshold -45  # Lower = more sensitive
+
+# Adjust silence duration before auto-stop
+uv run transcribe_hotkey.py --silence-duration 3.0   # Longer pause tolerance
 ```
 
 **macOS Permissions Required:**
