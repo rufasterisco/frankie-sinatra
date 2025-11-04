@@ -20,7 +20,7 @@ from pynput import keyboard
 
 
 class HotkeyTranscriber:
-    def __init__(self, model_name="base", hotkey="double-cmd", output_dir="transcriptions", double_tap_delay=0.3, auto_paste=True, auto_stop=True, silence_threshold=-40, silence_duration=2.0):
+    def __init__(self, model_name="base", hotkey="double-cmd", output_dir="transcriptions", double_tap_delay=0.3, auto_paste=True, auto_stop=True, silence_threshold=-40, silence_duration=2.0, language="en", auto_detect_language=False):
         """
         Initialize the hotkey transcriber.
 
@@ -33,6 +33,8 @@ class HotkeyTranscriber:
             auto_stop: Automatically stop recording after silence
             silence_threshold: Audio level threshold in dB for silence detection (default: -40)
             silence_duration: Duration of silence in seconds before auto-stop (default: 2.0)
+            language: Language code (default: 'en' for English, None for auto-detection)
+            auto_detect_language: If True, auto-detect language instead of using fixed language
         """
         self.model_name = model_name
         self.hotkey = hotkey
@@ -44,6 +46,8 @@ class HotkeyTranscriber:
         self.auto_stop = auto_stop
         self.silence_threshold = silence_threshold
         self.silence_duration = silence_duration
+        self.language = None if auto_detect_language else language
+        self.auto_detect_language = auto_detect_language
 
         self.is_recording = False
         self.audio_data = []
@@ -180,7 +184,10 @@ class HotkeyTranscriber:
 
         # Transcribe
         print("Processing...")
-        result = self.model.transcribe(str(audio_path))
+        if self.language:
+            result = self.model.transcribe(str(audio_path), language=self.language)
+        else:
+            result = self.model.transcribe(str(audio_path))
 
         # Display result
         print("\n" + "="*60)
@@ -244,6 +251,10 @@ class HotkeyTranscriber:
             print(f"Hotkey: {self.hotkey}")
 
         print(f"Output directory: {self.output_dir}")
+
+        language_mode = "Auto-detect" if self.auto_detect_language else self.language.upper() if self.language else "Auto-detect"
+        print(f"Language: {language_mode}")
+
         paste_mode = "Auto-paste enabled" if self.auto_paste else "Clipboard only (no auto-paste)"
         print(f"Paste mode: {paste_mode}")
 
@@ -357,6 +368,17 @@ def main():
         default=2.0,
         help="Duration of silence in seconds before auto-stop (default: 2.0)"
     )
+    parser.add_argument(
+        "--language",
+        type=str,
+        default="en",
+        help="Language code for transcription (default: en). Use 'auto' for auto-detection. Examples: en, es, fr, de, it, pt, ja, zh"
+    )
+    parser.add_argument(
+        "--auto-detect-language",
+        action="store_true",
+        help="Enable automatic language detection (overrides --language)"
+    )
 
     args = parser.parse_args()
 
@@ -367,6 +389,10 @@ def main():
     print("3. Add Terminal (or your Python app) to the list")
     print("4. Restart this script\n")
 
+    # Handle language setting
+    language = args.language if args.language != "auto" else None
+    auto_detect = args.auto_detect_language or args.language == "auto"
+
     transcriber = HotkeyTranscriber(
         model_name=args.model,
         hotkey=args.hotkey,
@@ -374,7 +400,9 @@ def main():
         auto_paste=not args.no_paste,
         auto_stop=not args.no_auto_stop,
         silence_threshold=args.silence_threshold,
-        silence_duration=args.silence_duration
+        silence_duration=args.silence_duration,
+        language=language,
+        auto_detect_language=auto_detect
     )
 
     try:

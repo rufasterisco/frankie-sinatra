@@ -58,6 +58,20 @@ uv run transcribe_hotkey.py
 **Options:**
 
 ```bash
+# Change language (default is English)
+uv run transcribe_hotkey.py --language es    # Spanish
+uv run transcribe_hotkey.py --language fr    # French
+uv run transcribe_hotkey.py --language de    # German
+uv run transcribe_hotkey.py --language it    # Italian
+uv run transcribe_hotkey.py --language pt    # Portuguese
+uv run transcribe_hotkey.py --language ja    # Japanese
+uv run transcribe_hotkey.py --language zh    # Chinese
+
+# Enable auto-detection (detects language automatically)
+uv run transcribe_hotkey.py --auto-detect-language
+# or
+uv run transcribe_hotkey.py --language auto
+
 # Disable auto-paste (clipboard only)
 uv run transcribe_hotkey.py --no-paste
 
