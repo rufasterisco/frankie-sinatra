@@ -31,6 +31,15 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Document accessibility permissions requirements
 - [x] Update documentation with hotkey usage
 
+### Phase 3: Auto-Paste Transcription (Current)
+- [ ] Research clipboard and paste automation on macOS
+- [ ] Implement clipboard integration
+- [ ] Add auto-paste to active application
+- [ ] Detect focused application/cursor position
+- [ ] Add option to disable auto-paste (clipboard only)
+- [ ] Test with various applications (text editors, browsers, etc.)
+- [ ] Update documentation with auto-paste feature
+
 ### Phase ?: Quality Evaluation (Future)
 - [ ] Compare different model sizes
 - [ ] Measure transcription accuracy
@@ -68,12 +77,20 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - **Alternative:** Custom hotkey combinations supported via `--hotkey` flag
 - **macOS requirement:** Accessibility permissions needed for global hotkey detection
 
+### Auto-Paste Integration
+- **Clipboard library:** `pyperclip` (cross-platform clipboard operations)
+- **Paste mechanism:** Simulates Cmd+V using pynput keyboard controller
+- **Default behavior:** Auto-paste enabled (transcription automatically inserted at cursor)
+- **Alternative:** `--no-paste` flag for clipboard-only mode
+- **Use case:** Hands-free dictation directly into any application
+
 ### Dependencies
 - `openai-whisper`: Core transcription
 - `sounddevice`: Microphone recording
 - `soundfile`: Audio file handling
 - `numpy`: Audio data processing
-- `pynput`: Global hotkey detection
+- `pynput`: Global hotkey detection and keyboard simulation
+- `pyperclip`: Clipboard operations
 
 ## Development Notes
 

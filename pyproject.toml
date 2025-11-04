@@ -9,6 +9,7 @@ dependencies = [
     "soundfile>=0.12.1",
     "numpy>=1.24.0",
     "pynput>=1.7.6",
+    "pyperclip>=1.8.2",
 ]
 
 [build-system]

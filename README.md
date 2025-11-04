@@ -41,17 +41,25 @@ uv sync
 
 ## Usage
 
-### Option 1: Hotkey Activation (Recommended)
+### Option 1: Hotkey Activation with Auto-Paste (Recommended)
 
-Run the hotkey listener and use a global hotkey to start/stop recording:
+Run the hotkey listener and use a global hotkey to start/stop recording. Transcriptions are automatically pasted wherever your cursor is:
 
 ```bash
 uv run transcribe_hotkey.py
 ```
 
-**Default activation:** Double-tap right Command key
-- Double-tap to start recording
-- Double-tap again to stop and transcribe
+**How it works:**
+- **Double-tap right Command key** to start recording
+- Speak into your microphone
+- **Double-tap again** to stop
+- Transcription is copied to clipboard AND automatically pasted to your active application
+
+**Clipboard-only mode:**
+```bash
+# Disable auto-paste, copy to clipboard only
+uv run transcribe_hotkey.py --no-paste
+```
 
 **Custom hotkey:**
 ```bash

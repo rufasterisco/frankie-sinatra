@@ -12,6 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 import numpy as np
+import pyperclip
 import sounddevice as sd
 import soundfile as sf
 import whisper
@@ -19,7 +20,7 @@ from pynput import keyboard
 
 
 class HotkeyTranscriber:
-    def __init__(self, model_name="base", hotkey="double-cmd", output_dir="transcriptions", double_tap_delay=0.3):
+    def __init__(self, model_name="base", hotkey="double-cmd", output_dir="transcriptions", double_tap_delay=0.3, auto_paste=True):
         """
         Initialize the hotkey transcriber.
 
@@ -28,6 +29,7 @@ class HotkeyTranscriber:
             hotkey: Hotkey activation ('double-cmd' for double-tap right Cmd, or combo like '<cmd>+<shift>+r')
             output_dir: Directory to save transcriptions
             double_tap_delay: Maximum time between taps (seconds) for double-tap mode
+            auto_paste: Automatically paste transcription to active application
         """
         self.model_name = model_name
         self.hotkey = hotkey
@@ -35,12 +37,14 @@ class HotkeyTranscriber:
         self.output_dir.mkdir(exist_ok=True)
         self.double_tap_delay = double_tap_delay
         self.use_double_tap = (hotkey == "double-cmd")
+        self.auto_paste = auto_paste
 
         self.is_recording = False
         self.audio_data = []
         self.sample_rate = 16000
         self.stream = None
         self.model = None
+        self.keyboard_controller = keyboard.Controller()
 
         # Double-tap detection
         self.last_tap_time = 0
@@ -128,6 +132,20 @@ class HotkeyTranscriber:
         if "language" in result:
             print(f"🌍 Detected language: {result['language']}")
 
+        # Copy to clipboard and optionally paste
+        transcription_text = result["text"].strip()
+        pyperclip.copy(transcription_text)
+        print(f"📋 Copied to clipboard")
+
+        if self.auto_paste:
+            print(f"✨ Pasting to active application...")
+            time.sleep(0.1)  # Small delay to ensure clipboard is ready
+
+            # Simulate Cmd+V to paste
+            with self.keyboard_controller.pressed(keyboard.Key.cmd):
+                self.keyboard_controller.press('v')
+                self.keyboard_controller.release('v')
+
         activation_msg = "Double-tap right Cmd" if self.use_double_tap else f"Press {self.hotkey}"
         print(f"\nReady! {activation_msg} to record again.")
 
@@ -154,11 +172,16 @@ class HotkeyTranscriber:
 
         if self.use_double_tap:
             print(f"Activation: Double-tap right Command key")
-            print(f"Output directory: {self.output_dir}")
-            print(f"\n✨ Ready! Double-tap right Cmd key to start recording.")
         else:
             print(f"Hotkey: {self.hotkey}")
-            print(f"Output directory: {self.output_dir}")
+
+        print(f"Output directory: {self.output_dir}")
+        paste_mode = "Auto-paste enabled" if self.auto_paste else "Clipboard only (no auto-paste)"
+        print(f"Mode: {paste_mode}")
+
+        if self.use_double_tap:
+            print(f"\n✨ Ready! Double-tap right Cmd key to start recording.")
+        else:
             print(f"\n✨ Ready! Press {self.hotkey} to start recording.")
 
         print("Press Ctrl+C to quit.\n")
@@ -223,9 +246,9 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default="base",
+        default="small",
         choices=["tiny", "base", "small", "medium", "large"],
-        help="Whisper model size (default: base)"
+        help="Whisper model size (default: small)"
     )
     parser.add_argument(
         "--hotkey",
@@ -238,6 +261,11 @@ def main():
         type=str,
         default="transcriptions",
         help="Output directory for transcriptions (default: transcriptions)"
+    )
+    parser.add_argument(
+        "--no-paste",
+        action="store_true",
+        help="Disable auto-paste (clipboard only)"
     )
 
     args = parser.parse_args()
@@ -252,7 +280,8 @@ def main():
     transcriber = HotkeyTranscriber(
         model_name=args.model,
         hotkey=args.hotkey,
-        output_dir=args.output_dir
+        output_dir=args.output_dir,
+        auto_paste=not args.no_paste
     )
 
     try:
