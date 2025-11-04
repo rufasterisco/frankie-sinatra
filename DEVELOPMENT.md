@@ -38,15 +38,50 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Add option to disable auto-paste (clipboard only)
 - [x] Update documentation with auto-paste feature
 
-### Phase 4: Silence Detection Auto-Stop (Current - Experimental)
-- [ ] Research silence detection algorithms
-- [ ] Implement audio level monitoring
-- [ ] Add configurable silence threshold (dB)
-- [ ] Add configurable silence duration (seconds before auto-stop)
-- [ ] Add --auto-stop flag to enable feature
-- [ ] Test with different speaking patterns and environments
-- [ ] Evaluate false positive/negative rates
-- [ ] Update documentation with experimental feature
+### Phase 4: Silence Detection Auto-Stop ✅
+- [x] Research silence detection algorithms
+- [x] Implement audio level monitoring (RMS-based)
+- [x] Add configurable silence threshold (dB)
+- [x] Add configurable silence duration (seconds before auto-stop)
+- [x] Enable auto-stop by default with --no-auto-stop to disable
+- [x] Test with different speaking patterns and environments
+- [x] Clean implementation with monitoring thread
+- [x] Update documentation with tuning parameters
+
+### Phase ?: macOS Menu Bar App with rumps
+- [ ] Research rumps library and menu bar app patterns
+- [ ] Add rumps dependency
+- [ ] Create basic menu bar app with icon
+- [ ] Implement Start/Stop transcription from menu
+- [ ] Add visual indicator for recording state (icon changes)
+- [ ] Add menu items for basic settings
+- [ ] Test menu bar app functionality
+- [ ] Update documentation with menu bar usage
+
+### Phase ?: Dynamic Settings in Menu Bar App
+- [ ] Research how to pass live parameters via rumps menus
+- [ ] Add language selection submenu
+- [ ] Add model selection submenu
+- [ ] Add settings for silence threshold/duration
+- [ ] Implement settings persistence (save user preferences)
+- [ ] Add visual feedback for current settings
+- [ ] Update menu dynamically based on state
+
+### Phase ?: Standalone Application Packaging
+- [ ] Research py2app configuration
+- [ ] Create setup.py for py2app
+- [ ] Test building standalone .app bundle
+- [ ] Configure app icons and metadata
+- [ ] Test launching .app without terminal
+- [ ] Add instructions for building standalone app
+- [ ] Optional: Add to Login Items instructions
+
+### Phase ?: Audio File Cleanup
+- [ ] Add option to delete WAV files after transcription
+- [ ] Implement --keep-audio flag to preserve recordings
+- [ ] Add cleanup for old recordings (configurable retention period)
+- [ ] Add menu option to clean up all recordings
+- [ ] Update documentation with cleanup options
 
 ### Phase ?: Quality Evaluation (Future)
 - [ ] Compare different model sizes
@@ -56,7 +91,6 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 
 ### Phase ?: Advanced Features (Future)
 - [ ] Add real-time streaming transcription
-- [ ] Create simple GUI
 - [ ] Add support for different languages
 - [ ] Implement audio pre-processing
 - [ ] Integration with text editors
