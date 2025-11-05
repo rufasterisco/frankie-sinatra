@@ -84,6 +84,13 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Test hotkey and menu triggers work together
 - [x] Verified working in Python version (minor .app bundle display issue)
 
+### Phase ?: Fix .app Bundle Error Handling
+- [ ] Investigate red X error display in .app bundle
+- [ ] Add proper error handling and logging in menu bar app
+- [ ] Test error scenarios in .app bundle
+- [ ] Ensure errors are handled gracefully without breaking UI
+- [ ] Verify transcription errors show helpful messages
+
 ### Phase ?: Dynamic Settings in Menu Bar App
 - [ ] Research how to pass live parameters via rumps menus
 - [ ] Add language selection submenu
