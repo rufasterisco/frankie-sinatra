@@ -64,6 +64,14 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Test menu bar app functionality
 - [x] Update documentation with menu bar usage
 
+### Phase ?: Global Hotkey Support in Menu Bar App
+- [ ] Integrate double-tap Command key detection into menu bar app
+- [ ] Run keyboard listener in background thread
+- [ ] Allow both menu-based and hotkey-based recording triggers
+- [ ] Update menu to show current hotkey setting
+- [ ] Test hotkey and menu triggers work together
+- [ ] Update documentation with hotkey feature
+
 ### Phase ?: Dynamic Settings in Menu Bar App
 - [ ] Research how to pass live parameters via rumps menus
 - [ ] Add language selection submenu
