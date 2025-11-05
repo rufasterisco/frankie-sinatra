@@ -17,13 +17,13 @@ DATA_FILES = []
 OPTIONS = {
     'argv_emulation': False,  # Not needed for menu bar apps
     'plist': {
-        'CFBundleName': 'Whisper',
-        'CFBundleDisplayName': 'Whisper Transcription',
-        'CFBundleIdentifier': 'com.whisper.transcription',
+        'CFBundleName': 'Lolalola',
+        'CFBundleDisplayName': 'Lolalola',
+        'CFBundleIdentifier': 'com.lolalola.transcription',
         'CFBundleVersion': '0.1.0',
         'CFBundleShortVersionString': '0.1.0',
         'LSUIElement': True,  # Hide from Dock (menu bar only)
-        'NSMicrophoneUsageDescription': 'Whisper needs microphone access to record audio for transcription.',
+        'NSMicrophoneUsageDescription': 'Lolalola needs microphone access to record audio for transcription.',
     },
     'packages': [
         'rumps',
@@ -45,7 +45,7 @@ OPTIONS = {
 }
 
 setup(
-    name='Whisper',
+    name='Lolalola',
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},

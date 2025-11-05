@@ -64,13 +64,13 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Test menu bar app functionality
 - [x] Update documentation with menu bar usage
 
-### Phase ?: Global Hotkey Support in Menu Bar App
-- [ ] Integrate double-tap Command key detection into menu bar app
-- [ ] Run keyboard listener in background thread
-- [ ] Allow both menu-based and hotkey-based recording triggers
-- [ ] Update menu to show current hotkey setting
-- [ ] Test hotkey and menu triggers work together
-- [ ] Update documentation with hotkey feature
+### Phase 8: Global Hotkey Support in Menu Bar App ✅
+- [x] Integrate double-tap Command key detection into menu bar app
+- [x] Run keyboard listener in background thread
+- [x] Allow both menu-based and hotkey-based recording triggers
+- [x] Update menu to show current hotkey setting
+- [x] Test hotkey and menu triggers work together
+- [x] Verified working in Python version (minor .app bundle display issue)
 
 ### Phase ?: Dynamic Settings in Menu Bar App
 - [ ] Research how to pass live parameters via rumps menus
@@ -184,6 +184,12 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
   - Created BUILD.md with comprehensive build and installation instructions
   - App can be installed to /Applications and launched via Spotlight
   - Supports auto-start via Login Items
+- **Phase 8 complete** - Global Hotkey Support in Menu Bar App
+  - Integrated double-tap right Command key detection
+  - Keyboard listener runs in background thread
+  - Both menu-based and hotkey triggers work together
+  - Added Settings menu toggle for hotkey enable/disable
+  - Renamed app to "Lolalola"
 
 ## Testing Checklist
 

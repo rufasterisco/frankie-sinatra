@@ -1,8 +1,8 @@
-# Makefile for Whisper Transcription macOS App
+# Makefile for Lolalola Transcription macOS App
 
 # Variables
 PYTHON := uv run python
-APP_NAME := Whisper
+APP_NAME := Lolalola
 DIST_DIR := dist
 BUILD_DIR := build
 APP_BUNDLE := $(DIST_DIR)/$(APP_NAME).app
@@ -63,7 +63,7 @@ uninstall:
 
 # Show help
 help:
-	@echo "Whisper Transcription - Available Make Targets:"
+	@echo "Lolalola Transcription - Available Make Targets:"
 	@echo ""
 	@echo "  make              - Build app in development mode (default)"
 	@echo "  make build-dev    - Build app in development/alias mode (fast)"

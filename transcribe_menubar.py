@@ -38,6 +38,8 @@ class WhisperMenuBarApp(rumps.App):
         self.language = "en"
         self.auto_detect_language = False
         self.keep_audio = False
+        self.hotkey_enabled = True
+        self.double_tap_delay = 0.3
 
         # Recording state
         self.is_recording = False
@@ -50,6 +52,11 @@ class WhisperMenuBarApp(rumps.App):
         # Silence detection
         self.silence_start_time = None
         self.last_audio_time = None
+
+        # Hotkey detection
+        self.last_tap_time = 0
+        self.tap_count = 0
+        self.keyboard_listener = None
 
         # Menu items
         self.start_stop_button = rumps.MenuItem(
@@ -77,6 +84,12 @@ class WhisperMenuBarApp(rumps.App):
         )
         self.keep_audio_toggle.state = self.keep_audio
 
+        self.hotkey_toggle = rumps.MenuItem(
+            title="Global hotkey (double-tap ⌘)",
+            callback=self.toggle_hotkey
+        )
+        self.hotkey_toggle.state = self.hotkey_enabled
+
         # Build menu
         self.menu = [
             self.status_item,
@@ -85,6 +98,8 @@ class WhisperMenuBarApp(rumps.App):
             None,  # Separator
             {
                 "Settings": [
+                    self.hotkey_toggle,
+                    None,  # Separator
                     self.auto_paste_toggle,
                     self.auto_stop_toggle,
                     self.keep_audio_toggle,
@@ -95,6 +110,10 @@ class WhisperMenuBarApp(rumps.App):
         # Initialize model in background
         self.model_loaded = False
         threading.Thread(target=self.load_model, daemon=True).start()
+
+        # Start hotkey listener in background
+        if self.hotkey_enabled:
+            threading.Thread(target=self.start_hotkey_listener, daemon=True).start()
 
     def load_model(self):
         """Load Whisper model in background."""
@@ -140,6 +159,53 @@ class WhisperMenuBarApp(rumps.App):
         sender.state = self.keep_audio
         status = "enabled" if self.keep_audio else "disabled"
         print(f"Keep audio files {status}")
+
+    def toggle_hotkey(self, sender):
+        """Toggle global hotkey setting."""
+        self.hotkey_enabled = not self.hotkey_enabled
+        sender.state = self.hotkey_enabled
+
+        if self.hotkey_enabled:
+            # Start the listener
+            print("Global hotkey enabled (double-tap right ⌘)")
+            threading.Thread(target=self.start_hotkey_listener, daemon=True).start()
+        else:
+            # Stop the listener
+            print("Global hotkey disabled")
+            if self.keyboard_listener:
+                self.keyboard_listener.stop()
+                self.keyboard_listener = None
+
+    def start_hotkey_listener(self):
+        """Start listening for global hotkey in background thread."""
+        def on_press(key):
+            if key == keyboard.Key.cmd_r:
+                self.on_right_cmd_tap()
+
+        def on_release(key):
+            pass
+
+        # Create and start listener
+        self.keyboard_listener = keyboard.Listener(
+            on_press=on_press,
+            on_release=on_release
+        )
+        self.keyboard_listener.start()
+        print("Hotkey listener started (double-tap right ⌘ to record)")
+
+    def on_right_cmd_tap(self):
+        """Handle right Command key tap for double-tap detection."""
+        current_time = time.time()
+
+        if current_time - self.last_tap_time < self.double_tap_delay:
+            # Double tap detected!
+            self.tap_count = 0
+            self.toggle_recording(None)
+        else:
+            # First tap
+            self.tap_count = 1
+
+        self.last_tap_time = current_time
 
     def start_recording(self):
         """Start recording audio."""
