@@ -29,29 +29,30 @@ Download from [ffmpeg.org](https://ffmpeg.org/download.html)
 
 ## Installation
 
-### Option A: Install as a macOS Application (Recommended)
+### Quick Start (Recommended)
 
-Build and install Whisper as a standalone app that you can launch via Spotlight:
+Run directly from source - works perfectly with all features:
 
 ```bash
 # Install uv if you don't have it
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Install dependencies
-make deps
+uv sync
 
-# Build and install to /Applications
-make install
+# Run the menu bar app
+uv run transcribe_menubar.py
 ```
 
-Now you can:
-- Launch via Spotlight: `Cmd+Space`, type "Whisper", press Enter
-- Find it in your Applications folder
-- Add to Login Items to auto-start
+This gives you the full menu bar app experience with hotkey support!
 
-See [BUILD.md](BUILD.md) for detailed build instructions.
+### Alternative: Install as Standalone App
 
-### Option B: Run from Source
+**⚠️ Note:** Currently has compatibility issues with Python 3.13. The direct Python approach above is recommended.
+
+See [BUILD.md](BUILD.md) for standalone app build instructions (requires Python 3.11).
+
+### For Development
 
 1. Clone or navigate to this repository
 2. Install dependencies using uv:

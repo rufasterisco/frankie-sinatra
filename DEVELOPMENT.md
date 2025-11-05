@@ -84,12 +84,15 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Test hotkey and menu triggers work together
 - [x] Verified working in Python version (minor .app bundle display issue)
 
-### Phase ?: Fix .app Bundle Error Handling
-- [ ] Investigate red X error display in .app bundle
-- [ ] Add proper error handling and logging in menu bar app
-- [ ] Test error scenarios in .app bundle
-- [ ] Ensure errors are handled gracefully without breaking UI
-- [ ] Verify transcription errors show helpful messages
+### Phase 9: Fix .app Bundle Error Handling ✅
+- [x] Investigate red X error display in .app bundle
+- [x] Add proper error handling and logging in menu bar app
+- [x] Add debug logging to track where transcription fails
+- [x] Identified root cause: Python 3.13 incompatibility with py2app
+- [x] Fixed output directory to use ~/.lolalola/transcriptions
+- [x] Changed default to keep_audio=True for debugging
+- [x] Updated README to recommend running Python script directly
+- [x] Documented that standalone .app requires Python 3.11
 
 ### Phase ?: Dynamic Settings in Menu Bar App
 - [ ] Research how to pass live parameters via rumps menus

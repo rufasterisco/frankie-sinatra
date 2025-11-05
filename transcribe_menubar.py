@@ -29,15 +29,16 @@ class WhisperMenuBarApp(rumps.App):
 
         # Default settings
         self.model_name = "small"
-        self.output_dir = Path("transcriptions")
-        self.output_dir.mkdir(exist_ok=True)
+        # Use home directory for transcriptions when running as .app
+        self.output_dir = Path.home() / ".lolalola" / "transcriptions"
+        self.output_dir.mkdir(parents=True, exist_ok=True)
         self.auto_paste = True
         self.auto_stop = True
         self.silence_threshold = -40
         self.silence_duration = 2.0
         self.language = "en"
         self.auto_detect_language = False
-        self.keep_audio = False
+        self.keep_audio = True  # Changed to True for debugging
         self.hotkey_enabled = True
         self.double_tap_delay = 0.3
 
@@ -325,33 +326,62 @@ class WhisperMenuBarApp(rumps.App):
 
     def _process_transcription(self):
         """Process transcription in background thread."""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_path = self.output_dir / f"debug_{timestamp}.log"
+
+        def log(msg):
+            """Write to both console and log file."""
+            print(msg)
+            with open(log_path, "a") as f:
+                f.write(f"{datetime.now().isoformat()} - {msg}\n")
+
         try:
+            log(f"DEBUG: Starting transcription process...")
+            log(f"DEBUG: Output dir: {self.output_dir}")
+            log(f"DEBUG: Audio data chunks: {len(self.audio_data)}")
+
             # Combine audio chunks
             audio = np.concatenate(self.audio_data, axis=0)
+            log(f"DEBUG: Combined audio shape: {audio.shape}")
 
             # Save audio temporarily
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             audio_path = self.output_dir / f"recording_{timestamp}.wav"
+            log(f"DEBUG: Saving audio to: {audio_path}")
             sf.write(audio_path, audio, self.sample_rate)
+            log(f"DEBUG: Audio saved successfully")
 
             # Transcribe
-            print("Processing...")
+            log(f"DEBUG: Starting Whisper transcription...")
+            log(f"DEBUG: Model loaded: {self.model is not None}")
             if self.language:
+                log(f"DEBUG: Calling transcribe with language={self.language}")
                 result = self.model.transcribe(str(audio_path), language=self.language)
             else:
+                log(f"DEBUG: Calling transcribe with auto-detect")
                 result = self.model.transcribe(str(audio_path))
+            log(f"DEBUG: Transcription complete, result keys: {list(result.keys())}")
+
+            # Check for empty transcription
+            transcription_text = result["text"].strip()
+            if not transcription_text:
+                print("\n⚠️  Warning: No speech detected in recording")
+                self.title = "🎤"
+                self.status_item.title = "Status: No speech detected"
+                time.sleep(2)
+                self.status_item.title = "Status: Ready"
+                return
 
             # Display result
             print("\n" + "="*60)
             print("TRANSCRIPTION:")
             print("="*60)
-            print(result["text"])
+            print(transcription_text)
             print("="*60)
 
             # Save transcription temporarily (for reference if paste fails)
             transcription_path = self.output_dir / f"transcription_{timestamp}.txt"
             with open(transcription_path, "w") as f:
-                f.write(result["text"])
+                f.write(transcription_text)
 
             if self.keep_audio:
                 print(f"\n✅ Transcription saved to: {transcription_path}")
@@ -370,7 +400,6 @@ class WhisperMenuBarApp(rumps.App):
                 print(f"🌍 Detected language: {result['language']}")
 
             # Copy to clipboard and optionally paste
-            transcription_text = result["text"].strip()
             pyperclip.copy(transcription_text)
             print(f"📋 Copied to clipboard")
 
@@ -389,12 +418,31 @@ class WhisperMenuBarApp(rumps.App):
             print("\nReady to record again!")
 
         except Exception as e:
-            print(f"Error during transcription: {e}")
+            import traceback
+            error_msg = str(e)
+            traceback_str = traceback.format_exc()
+
+            # Log error
+            try:
+                log(f"\n❌ ERROR during transcription: {error_msg}")
+                log(f"Traceback:\n{traceback_str}")
+            except:
+                # If logging fails, just print
+                print(f"\n❌ Error during transcription: {error_msg}")
+                print(f"Traceback:\n{traceback_str}")
+
+            # Show error in status
             self.title = "❌"
-            self.status_item.title = "Status: Error"
-            time.sleep(2)
-            self.title = "🎤"
-            self.status_item.title = "Status: Ready"
+            self.status_item.title = f"Status: Error - {error_msg[:30]}"
+
+            # Reset UI after 3 seconds
+            def reset_after_error():
+                time.sleep(3)
+                self.title = "🎤"
+                self.status_item.title = "Status: Ready"
+                print("Ready to record again")
+
+            threading.Thread(target=reset_after_error, daemon=True).start()
 
 
 def main():
