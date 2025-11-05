@@ -54,15 +54,15 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Update documentation with cleanup options
 - [x] Test audio cleanup functionality
 
-### Phase ?: macOS Menu Bar App with rumps
-- [ ] Research rumps library and menu bar app patterns
-- [ ] Add rumps dependency
-- [ ] Create basic menu bar app with icon
-- [ ] Implement Start/Stop transcription from menu
-- [ ] Add visual indicator for recording state (icon changes)
-- [ ] Add menu items for basic settings
-- [ ] Test menu bar app functionality
-- [ ] Update documentation with menu bar usage
+### Phase 6: macOS Menu Bar App with rumps ✅
+- [x] Research rumps library and menu bar app patterns
+- [x] Add rumps dependency
+- [x] Create basic menu bar app with icon
+- [x] Implement Start/Stop transcription from menu
+- [x] Add visual indicator for recording state (icon changes)
+- [x] Add menu items for basic settings (auto-paste, auto-stop, keep audio)
+- [x] Test menu bar app functionality
+- [x] Update documentation with menu bar usage
 
 ### Phase ?: Dynamic Settings in Menu Bar App
 - [ ] Research how to pass live parameters via rumps menus
@@ -154,6 +154,18 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
   - Supports custom hotkey combinations
   - Updated all documentation
 - **Phase 2 complete** - Double-tap activation working
+
+### 2025-11-05
+- **Phase 3 complete** - Auto-paste transcription to active application
+- **Phase 4 complete** - Silence detection auto-stop
+- **Phase 5 complete** - Audio file cleanup
+- **Phase 6 complete** - macOS Menu Bar App
+  - Added rumps dependency
+  - Created transcribe_menubar.py with menu bar interface
+  - Visual status indicators (🎤 → 🔴 → ⏳ → 🎤)
+  - Settings menu with toggles for auto-paste, auto-stop, and keep-audio
+  - Background model loading
+  - Integrated all existing transcription features
 
 ## Testing Checklist
 

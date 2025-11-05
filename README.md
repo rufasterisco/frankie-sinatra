@@ -41,7 +41,35 @@ uv sync
 
 ## Usage
 
-### Option 1: Hotkey Activation with Auto-Paste (Recommended)
+### Option 1: Menu Bar App (Easiest)
+
+Run the menu bar application for the most convenient experience:
+
+```bash
+uv run transcribe_menubar.py
+```
+
+**How it works:**
+- Look for the 🎤 icon in your macOS menu bar
+- Click the icon and select "Start Recording" from the menu
+- Speak into your microphone
+- **Automatically stops** after 2 seconds of silence (or click "Stop Recording" manually)
+- Transcription is copied to clipboard AND automatically pasted to your active application
+- Icon changes to show status: 🎤 (ready) → 🔴 (recording) → ⏳ (transcribing) → 🎤 (ready)
+
+**Settings Menu:**
+- **Auto-paste**: Toggle automatic pasting (enabled by default)
+- **Auto-stop on silence**: Toggle silence detection (enabled by default)
+- **Keep audio files**: Toggle file cleanup (disabled by default - files are deleted after transcription)
+
+**macOS Permissions Required:**
+On first run, macOS will require Accessibility permissions for auto-paste to work:
+1. Go to **System Preferences > Security & Privacy > Privacy**
+2. Select **Accessibility** from the left panel
+3. Add **Terminal** (or your Python app) to the list
+4. Restart the app
+
+### Option 2: Hotkey Activation with Auto-Paste
 
 Run the hotkey listener and use a global hotkey to start/stop recording. Transcriptions are automatically pasted wherever your cursor is:
 
@@ -100,7 +128,7 @@ On first run, macOS will require Accessibility permissions:
 3. Add **Terminal** (or your Python app) to the list
 4. Restart the script
 
-### Option 2: Manual Transcription
+### Option 3: Manual Transcription
 
 Run the script and speak into your microphone:
 
