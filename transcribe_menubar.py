@@ -5,6 +5,7 @@ Provides an easy-to-use menu bar interface for speech-to-text transcription.
 """
 
 import os
+import subprocess
 import threading
 import time
 from datetime import datetime
@@ -41,6 +42,10 @@ class WhisperMenuBarApp(rumps.App):
         self.keep_audio = True  # Changed to True for debugging
         self.hotkey_enabled = True
         self.double_tap_delay = 0.3
+
+        # Sound file path (relative to script directory)
+        script_dir = Path(__file__).parent
+        self.bubble_sound = script_dir / "bubble.mp3"
 
         # Recording state
         self.is_recording = False
@@ -129,6 +134,14 @@ class WhisperMenuBarApp(rumps.App):
             self.status_item.title = f"Status: Error loading model"
             print(f"Error loading model: {e}")
 
+    def play_sound(self):
+        """Play bubble sound in background thread."""
+        if self.bubble_sound.exists():
+            threading.Thread(
+                target=lambda: subprocess.run(['afplay', str(self.bubble_sound)]),
+                daemon=True
+            ).start()
+
     def toggle_recording(self, sender):
         """Toggle recording on/off."""
         if not self.model_loaded:
@@ -212,6 +225,9 @@ class WhisperMenuBarApp(rumps.App):
         """Start recording audio."""
         if self.is_recording:
             return
+
+        # Play sound feedback
+        self.play_sound()
 
         print("\n🔴 Recording started...")
         self.is_recording = True
