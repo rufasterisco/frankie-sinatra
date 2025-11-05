@@ -73,14 +73,17 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [ ] Add visual feedback for current settings
 - [ ] Update menu dynamically based on state
 
-### Phase ?: Standalone Application Packaging
-- [ ] Research py2app configuration
-- [ ] Create setup.py for py2app
-- [ ] Test building standalone .app bundle
-- [ ] Configure app icons and metadata
-- [ ] Test launching .app without terminal
-- [ ] Add instructions for building standalone app
-- [ ] Optional: Add to Login Items instructions
+### Phase 7: Standalone Application Packaging ✅
+- [x] Research py2app configuration
+- [x] Add py2app dependency
+- [x] Create setup.py for py2app with LSUIElement
+- [x] Test building .app bundle (alias mode works, production has Python 3.13 issue)
+- [x] Configure app metadata (bundle ID, version, microphone permissions)
+- [x] Test launching .app without terminal
+- [x] Create BUILD.md with detailed build instructions
+- [x] Create Makefile for easy building and installation
+- [x] Add instructions for Login Items auto-start
+- [x] Update README with installation options
 
 ### Phase 5: Audio File Cleanup ✅
 - [x] Delete WAV files by default after transcription
@@ -166,6 +169,13 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
   - Settings menu with toggles for auto-paste, auto-stop, and keep-audio
   - Background model loading
   - Integrated all existing transcription features
+- **Phase 7 complete** - Standalone Application Packaging
+  - Added py2app for building .app bundles
+  - Created setup.py with LSUIElement configuration
+  - Created Makefile with standard targets (build, install, clean, etc.)
+  - Created BUILD.md with comprehensive build and installation instructions
+  - App can be installed to /Applications and launched via Spotlight
+  - Supports auto-start via Login Items
 
 ## Testing Checklist
 

@@ -29,6 +29,30 @@ Download from [ffmpeg.org](https://ffmpeg.org/download.html)
 
 ## Installation
 
+### Option A: Install as a macOS Application (Recommended)
+
+Build and install Whisper as a standalone app that you can launch via Spotlight:
+
+```bash
+# Install uv if you don't have it
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install dependencies
+make deps
+
+# Build and install to /Applications
+make install
+```
+
+Now you can:
+- Launch via Spotlight: `Cmd+Space`, type "Whisper", press Enter
+- Find it in your Applications folder
+- Add to Login Items to auto-start
+
+See [BUILD.md](BUILD.md) for detailed build instructions.
+
+### Option B: Run from Source
+
 1. Clone or navigate to this repository
 2. Install dependencies using uv:
 ```bash

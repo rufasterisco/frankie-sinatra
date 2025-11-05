@@ -48,3 +48,8 @@ ENV/
 
 # Whisper model cache
 ~/.cache/whisper/
+
+# py2app build artifacts
+build/
+dist/
+*.spec
