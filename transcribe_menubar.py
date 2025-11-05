@@ -39,7 +39,7 @@ class WhisperMenuBarApp(rumps.App):
         self.silence_duration = 2.0
         self.language = "en"
         self.auto_detect_language = False
-        self.keep_audio = True  # Changed to True for debugging
+        self.keep_audio = False  # Clean up intermediate files by default
         self.hotkey_enabled = True
         self.double_tap_delay = 0.3
 
