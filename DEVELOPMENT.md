@@ -64,6 +64,18 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [x] Test menu bar app functionality
 - [x] Update documentation with menu bar usage
 
+### Phase 7: Standalone Application Packaging ✅
+- [x] Research py2app configuration
+- [x] Add py2app dependency
+- [x] Create setup.py for py2app with LSUIElement
+- [x] Test building .app bundle (alias mode works, production has Python 3.13 issue)
+- [x] Configure app metadata (bundle ID, version, microphone permissions)
+- [x] Test launching .app without terminal
+- [x] Create BUILD.md with detailed build instructions
+- [x] Create Makefile for easy building and installation
+- [x] Add instructions for Login Items auto-start
+- [x] Update README with installation options
+
 ### Phase 8: Global Hotkey Support in Menu Bar App ✅
 - [x] Integrate double-tap Command key detection into menu bar app
 - [x] Run keyboard listener in background thread
@@ -80,24 +92,6 @@ Create a simple POC to evaluate the quality of local Whisper transcription for s
 - [ ] Implement settings persistence (save user preferences)
 - [ ] Add visual feedback for current settings
 - [ ] Update menu dynamically based on state
-
-### Phase 7: Standalone Application Packaging ✅
-- [x] Research py2app configuration
-- [x] Add py2app dependency
-- [x] Create setup.py for py2app with LSUIElement
-- [x] Test building .app bundle (alias mode works, production has Python 3.13 issue)
-- [x] Configure app metadata (bundle ID, version, microphone permissions)
-- [x] Test launching .app without terminal
-- [x] Create BUILD.md with detailed build instructions
-- [x] Create Makefile for easy building and installation
-- [x] Add instructions for Login Items auto-start
-- [x] Update README with installation options
-
-### Phase 5: Audio File Cleanup ✅
-- [x] Delete WAV files by default after transcription
-- [x] Add --keep-audio flag to preserve recordings
-- [x] Update documentation with cleanup options
-- [x] Test audio cleanup functionality
 
 ### Phase ?: Quality Evaluation (Future)
 - [ ] Compare different model sizes
